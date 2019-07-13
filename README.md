@@ -1,10 +1,10 @@
 # mysql-hw (Bamazon)
 In this HW I am making a mock store in node using a mysql database to mimic a store.
 
-##MySql
+## MySql
 * In mysql I created a database then created the mock info for the table.
 
-##nodeJs/Js
+## nodeJs/Js
 *   Here I used 2 npms to connect this file with the database (mysql) and to interact with the user (inquirer)
 
 *   The first thing that shows up is the list of items and a prompt asking the user to type an id for the product they would like to purchase. The only input that is accepted is a number.
