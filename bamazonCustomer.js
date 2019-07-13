@@ -11,7 +11,7 @@ var options = {
   user: "root",
 
   // Your password
-  password: "",
+  password: "T573eCdf30aFa4?6b7B9b1c6ee9bc53bA4!",
   database: "bamazon_db"
 }
 
@@ -19,7 +19,7 @@ var connection = mysql.createConnection(options);
 connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
-    var sql = "select * from products";
+    var sql = 'select * from products';
 
       connection.query(sql, function (err, result) {
     if (err) throw err;
@@ -42,34 +42,36 @@ function customer() {
     inquirer
       .prompt([
         {
-          name: "input-id",
+          name: "proId",
           type: "input",
           message: "Please enter the ID of the product you would like to buy?",
-          validate: function intChecker(input_id){
+          validate: function intChecker(proId){
             const reg = /^\d+$/;
-            return reg.test(input_id) || "Enter a number for ID"
+            return reg.test(proId) || "Enter a number for ID"
           }
         },
         {
-          name: "input-Total",
+          name: "total",
           type: "input",
           message: "Please enter the amount of units you would like to purchase?",
-          validate: function intChecker(input_total){
+          validate: function intChecker(total){
             const reg = /^\d+$/;
-            return reg.test(input_total) || "Enter a number for ID"
+            return reg.test(total) || "Enter a number for units of item"
           }
         }
       ])
       // prodSelect()
       .then(function(answer){
-        var sql = "SELECT * FROM products WHERE product_id = ?";
-          var val = [answer.input_total];
+        var sql = 'SELECT * FROM products WHERE product_id = ?';
+          var val = parseInt(answer.proId);
+          // console.log(val)
         sql = mysql.format(sql, val);
         connection.query(sql, function (err, result){
-          if (answer.input_total <= result[0].stock_quantity){
-            console.log("\nEnjoy your Item");
+          
+          if (answer.total <= result[0].stock_quantity){
+            console.log("\nEnjoy your Item " + result[0].product_name + "(s)");
 
-            var userTotal = result[0].stock_quantity - answer.item_total;
+            var userTotal = result[0].stock_quantity - answer.total;
 
             connection.query(
               "update products set ? where ?",
@@ -82,11 +84,12 @@ function customer() {
                 }
               ]
             )
-            var userCost = parseFloat((result[0].price * answer.input_total).toFixed(2));
+            var userCost = parseFloat((result[0].price * answer.total).toFixed(2));
             console.log("\nYou owe $" + userCost)
+            customer();
           }
           else{
-            console.log("\nNot enough stock or We are out of stock.");
+            console.log("\nNot enough stock or we are currently out of stock.");
             customer();
           }
         
