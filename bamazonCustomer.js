@@ -44,7 +44,7 @@ function customer() {
         {
           name: "proId",
           type: "input",
-          message: "Please enter the ID of the product you would like to buy?",
+          message: "Please enter the ID of the product you would like to buy. To exit press crtl + c",
           validate: function intChecker(proId){
             const reg = /^\d+$/;
             return reg.test(proId) || "Enter a number for ID"
@@ -53,7 +53,7 @@ function customer() {
         {
           name: "total",
           type: "input",
-          message: "Please enter the amount of units you would like to purchase?",
+          message: "Please enter the amount of units you would like to purchase.",
           validate: function intChecker(total){
             const reg = /^\d+$/;
             return reg.test(total) || "Enter a number for units of item"
